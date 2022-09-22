@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:toters/profilepage.dart';
-import 'package:toters/searchpage.dart';
-import 'homepage.dart';
-import 'orderpage.dart';
+import 'package:toters/UI/PROFILEPAGE/profilepage.dart';
+import 'package:toters/UI/SEARCHPAGE/searchpage.dart';
+import '../HOMEPAGE/Homepage.dart';
+import '../ORDERPAGE/orderpage.dart';
 
 
 class MainNav extends StatefulWidget {
@@ -26,26 +26,26 @@ class _MainNavState extends State<MainNav> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 70.0,
-              height: 23,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage("https://images.pexels.com/photos/414102/pexels-photo-414102.jpeg?cs=srgb&dl=pexels-pixabay-414102.jpg&fm=jpg"),
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-          ],
-        ),
-        elevation: 0.0,
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-      ),
+      // appBar: AppBar(
+      //   title: Row(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       Container(
+      //         width: 70.0,
+      //         height: 23,
+      //         decoration: BoxDecoration(
+      //           // image: DecorationImage(
+      //           //   image: NetworkImage("https://images.pexels.com/photos/414102/pexels-photo-414102.jpeg?cs=srgb&dl=pexels-pixabay-414102.jpg&fm=jpg"),
+      //           //   fit: BoxFit.fill,
+      //           // ),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      //   elevation: 0.0,
+      //   backgroundColor: Colors.white,
+      //   automaticallyImplyLeading: false,
+      // ),
       body: Container(
         decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.2),

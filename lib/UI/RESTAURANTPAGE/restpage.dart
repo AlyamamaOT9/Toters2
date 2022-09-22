@@ -1,6 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'data.dart';
-import 'foodpage.dart';
+import 'package:http/http.dart';
+import '../DATAFILE/data.dart';
+import '../MAELPAGE/mealpage.dart';
+
+
+var Mname = [""];
+var Mdesc = [""];
+var img = [""];
 
 
 class burgerpage extends StatefulWidget {
@@ -9,16 +17,14 @@ class burgerpage extends StatefulWidget {
   final String descrept ;
   final String rate ;
   final String comment ;
-  final String url2 ;
-  final String name2 ;
+
   const burgerpage({
     required this.url,
     required this.restname,
     required this.descrept,
     required this.rate,
     required this.comment,
-    required this.url2,
-    required this.name2,
+
   });
 
   @override
@@ -26,8 +32,30 @@ class burgerpage extends StatefulWidget {
 }
 
 class _burgerpageState extends State<burgerpage> {
+  Future GetData() async {
+    var url = Uri.parse('http://localhost:4000/meal');
+    Map<String, String> headers = {"Content-type": "application/json"};
+    Response response = await get(url);
+    int statusCode = response.statusCode;
+    String body = response.body;
+    List<dynamic> list2 = jsonDecode(body);
+    setState(() {
+      for(int i = 0 ; i < list2.length;i++){
+        Mname.add(list2[i]['M_name']);
+        img.add(list2[i]['M_img']);
+        Mdesc.add(list2[i]['description']);
 
+      }
+    });
+    // TODO convert json to object...
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    GetData();
 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +111,7 @@ class _burgerpageState extends State<burgerpage> {
                 ],
               ),
               Container(
-                height: MediaQuery.of(context).size.height-500,
+                height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.all(20),
                 child: Column(
@@ -184,6 +212,63 @@ class _burgerpageState extends State<burgerpage> {
                       children: [
                         Text(widget.comment,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.grey),),
                       ],
+                    ),
+                    Container(
+                      height: 20,
+                      width: MediaQuery.of(context).size.width-40,
+                      // color: Colors.red,
+                      child: Divider(
+                        color: Colors.grey.withOpacity(0.4),
+                        thickness: 1,
+                      ),
+                    ),
+                    Container(
+                      height: 450,
+                      width: MediaQuery.of(context).size.width,
+                      child: ListView.builder(
+                        itemCount: Mname.length,
+                        itemBuilder: (BuildContext context , int index){
+                          return Container(
+                            height: 110,
+                            width: MediaQuery.of(context).size.width,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(Mname[index],style: TextStyle(
+                                      fontSize: 20,fontWeight: FontWeight.bold,
+                                    ),),
+                                    Text(Mdesc[index],style: TextStyle(
+                                      fontSize: 20, color: Colors.black,
+                                    ),),
+                                  ],
+                                ),
+                                SizedBox(width: 10,),
+                                GestureDetector(
+                                  onTap: (){
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=> pagefood(url : mealpost[index]["url"],
+                                        restname : mealpost[index]["restname"], rate : mealpost[index]["rate"], location : mealpost[index]["location"], foodname : mealpost[index]["mealname"],
+                                    ),));
+                                  },
+                                  child: Container(
+                                    height: 100,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      image: DecorationImage(image: NetworkImage(img[index]),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
